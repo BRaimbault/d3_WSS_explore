@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>WSS Data Explorer</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/site.css"/>
+		<script src="js/jquery.js" type="text/javascript"></script>
+		<script src="js/d3.v3.min.js" type="text/javascript"></script>
+		<script src="js/topojson.v1.min.js" type="text/javascript"></script>
+		<script src="js/queue.v1.min.js" type="text/javascript"></script>
+		<script src="site.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="container dashbord">
+			<div class="row">
+				<div class="col-md-4">
+					<h2>WSS Data</h2>
+				</div>
+				<div class="col-md-8 spacersm">
+					<p>
+						For feedback email <a href="mailto:raimbault.bruno@gmail.com">raimbault.bruno@gmail.com</a>
+					</p>
+					<p>
+						Data source: <a href="http://www.wssinfo.org">www.wssinfo.org</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-7">
+					<h4>World Map</h4>
+					<div id="container"></div>
+				</div>
+				<div class="col-md-5">
+					<div>
+						<table style="width:250px">
+						  <tbody>
+						  <tr><th colspan="2">Global Situation</th></tr>
+						  <tr><td>Access to water (%)</td><td id="td_WSS_price" class="quant clear_on_relaunch">258,322</td></tr>
+						  <tr><td>Annual increase</td><td id="td_WSS_RoC" class="quant clear_on_relaunch">4.6%</td></tr>
+						  <tr><td class="time_series_name  clear_on_relaunch" id="td_WSS_ts_name"></td>
+						  	<td id="td_WSS_ts_datum" class="quant clear_on_relaunch"></td></tr>
+						</tbody></table>
+					</div>
+					<div>
+						<table style="width:250px">
+						<tbody><tr><th id="td_selected_name" colspan="2">Country Details</th></tr>
+						  <tr><td>Access to water (%)</td><td id="td_selected_price" class="quant clear_on_relaunch">262,486</td></tr>
+						  <tr><td>Annual increase</td><td id="td_selected_RoC" class="quant clear_on_relaunch">11.1%</td></tr>
+						  <tr><td class="time_series_name  clear_on_relaunch"></td>
+						  	<td id="td_selected_ts_datum" class="quant clear_on_relaunch"></td></tr>
+						  <tr><td></td><td></td></tr>
+						</tbody></table>
+					</div>	
+					<div id="info">
+						<h1 id="name"></h1>
+						<div style="margin:50px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
+						  <p><b>Animation options</b></p>
+						  <button id="pause_button" style="width:125px;margin-bottom:0">Pause</button><button id="replay" style="width:125px">Replay</button>
+						  <form onsubmit="return false">
+						  
+						  <br>
+						  <p>Choose time series to display on the map</p>
+						  
+						  <select style="width:125px" id="select_series1">
+						  		<option value="Wat" selected="selected">Access to water</option>
+						  		<option value="San">Access to sanitation</option>
+						  </select><select style="width:125px" id="select_series2">
+						  		<option value="N" selected="selected">on average </option>
+						  		<option value="U">in rural areas</option>
+						  		<option value="R">in urban areas</option>
+						  </select>
+						  <br>		
+						  
+						  <p><br>Choose animation speed<br>(milliseconds per year, default=2000)</p>
+						  <input style="width:250px" id="anim_speed" min="1" max="20000" value="2000" autocomplete="off" type="number">
+						  </form>
+						 </div>	
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script>
+			// Redraw on window resize
+			d3.select(window).on("resize", throttle);
+
+			function WSS_Data_stop()
+				{
+				d3.selectAll(".anim_element").transition().duration(0);
+				}
+				
+			function WSS_Data_relaunch(serie1,serie2,speed)
+				{
+				WSS_Data_stop();
+				$("#pause_button").text('Pause');
+				toggle=0;
+				$('.selected_country').removeClass('selected_country').css('stroke-width',0.2);
+				$(".rm_on_relaunch").remove();
+				$(".clear_on_relaunch").text('');
+				$("#td_selected_name").text('Click on map to select a country');
+				WSS_Data_update(serie1,serie2,speed,1989);
+				}
+				
+			var serie1 = 'Wat';
+			var serie2 = 'N';
+			var speed = 2000;
+		    var end_year = 2012;
+			WSS_Data_firstdraw(serie1,serie2,speed);
+			
+			$("#select_series1").change(function() 
+				{
+				WSS_Data_stop();
+				serie1 = $("#select_series1 option:selected").attr("value");
+				serie2 = $("#select_series2 option:selected").attr("value");
+				WSS_Data_relaunch(serie1,serie2,speed);
+				});
+			
+			$("#select_series2").change(function() 
+				{
+				WSS_Data_stop();
+				serie1 = $("#select_series1 option:selected").attr("value");
+				serie2 = $("#select_series2 option:selected").attr("value");
+				WSS_Data_relaunch(serie1,serie2,speed);
+				});
+				
+			$("#anim_speed").change(function()
+				{
+				WSS_Data_stop();
+				speed = $(this).val();
+				WSS_Data_relaunch(serie1,serie2,speed);
+				});
+				
+				var toggle = 0;
+				var pause_year;
+				$("#pause_button").click(function()
+				{
+				toggle = 1 - toggle;
+					$("#pause_button").text(function(){return toggle? 'Resume' : 'Pause';});
+						if (toggle)
+						{
+						pause_year = $("#tm_label").text();
+						WSS_Data_stop();
+						}
+						else {WSS_Data_update(serie1,serie2,speed,pause_year);}
+				});
+				
+				$("#replay").click(function() {WSS_Data_relaunch(serie1,serie2,speed);});
+		</script>
+	</body>
+</html>

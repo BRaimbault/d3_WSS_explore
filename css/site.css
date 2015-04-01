@@ -1,0 +1,73 @@
+body {
+    font-family: 'Gotham-Light', sans-serif;
+}
+
+.dashboard {
+	color:#000;
+} 
+
+.spacersm {
+    margin-top:20px;
+}
+
+.row {
+    border-bottom-style:solid;
+    border-bottom-color:#cccccc;
+    border-bottom-width:1px;
+}
+
+.country:hover{
+  stroke: #fff;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+.country {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: .5px;
+  stroke-linejoin: round;
+}
+
+#container {
+  margin:10px 0%;
+  padding:10px;
+  border:1px solid #d0d0d0;
+  border-radius: 2.5px;
+  height:100%;
+}
+
+.hidden { 
+  display: none; 
+}
+
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+.qw0-9 { fill:rgb(222,235,247); }
+.qw1-9 { fill:rgb(195,211,229); }
+.qw2-9 { fill:rgb(168,188,212); }
+.qw3-9 { fill:rgb(141,164,194); }
+.qw4-9 { fill:rgb(115,141,177); }
+.qw5-9 { fill:rgb(88,118,159); }
+.qw6-9 { fill:rgb(61,94,142); }
+.qw7-9 { fill:rgb(34,71,124); }
+.qw8-9 { fill:rgb(8,48,107); }
+
+.qs0-9 { fill:rgb(189,221,182); }
+.qs1-9 { fill:rgb(170,200,163); }
+.qs2-9 { fill:rgb(151,179,145); }
+.qs3-9 { fill:rgb(132,158,127); }
+.qs4-9 { fill:rgb(113,138,109); }
+.qs5-9 { fill:rgb(94,117,91); }
+.qs6-9 { fill:rgb(75,96,73); }
+.qs7-9 { fill:rgb(56,75,55); }
+.qs8-9 { fill:rgb(37,55,37); }
