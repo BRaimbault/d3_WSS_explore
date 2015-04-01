@@ -29,7 +29,7 @@
 
 			<div class="row">
 				<div class="col-md-7">
-					<h4>World Map</h4>
+					<table><tbody><tr><td style="width: 105px"><h4>World Map - </h4></td><td><h4><div id="year">1990</div></h4></td></tr></tbody></table>
 					<div id="container"></div>
 				</div>
 				<div class="col-md-5">
@@ -57,7 +57,7 @@
 						<h1 id="name"></h1>
 						<div style="margin:50px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
 						  <p><b>Animation options</b></p>
-						  <button id="pause_button" style="width:125px;margin-bottom:0">Pause</button><button id="replay" style="width:125px">Replay</button>
+						  <button id="pause_button" class="paused" style="width:125px;margin-bottom:0">Pause</button><button id="replay" style="width:125px">Replay</button>
 						  <form onsubmit="return false">
 						  
 						  <br>
@@ -85,68 +85,71 @@
 		<script>
 			// Redraw on window resize
 			d3.select(window).on("resize", throttle);
-
-			function WSS_Data_stop()
-				{
-				d3.selectAll(".anim_element").transition().duration(0);
-				}
-				
-			function WSS_Data_relaunch(serie1,serie2,speed)
-				{
-				WSS_Data_stop();
-				$("#pause_button").text('Pause');
-				toggle=0;
-				$('.selected_country').removeClass('selected_country').css('stroke-width',0.2);
-				$(".rm_on_relaunch").remove();
-				$(".clear_on_relaunch").text('');
-				$("#td_selected_name").text('Click on map to select a country');
-				WSS_Data_update(serie1,serie2,speed,1989);
-				}
 				
 			var serie1 = 'Wat';
 			var serie2 = 'N';
 			var speed = 2000;
 		    var end_year = 2012;
-			WSS_Data_firstdraw(serie1,serie2,speed);
+			WSS_Data_firstdraw();
 			
 			$("#select_series1").change(function() 
 				{
-				WSS_Data_stop();
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
-				WSS_Data_relaunch(serie1,serie2,speed);
+				$("#pause_button").trigger("click");
 				});
 			
 			$("#select_series2").change(function() 
 				{
-				WSS_Data_stop();
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
-				WSS_Data_relaunch(serie1,serie2,speed);
+				$("#pause_button").trigger("click");
 				});
 				
-			$("#anim_speed").change(function()
+			var playTimer;
+			var toggle = 1;
+			
+			$("#pause_button").click(function(){
+				toggle = 1 - toggle;
+				$("#pause_button").text(function(){return toggle? 'Resume' : 'Pause';});
+				if($("#pause_button").hasClass("paused")){
+					playTimer = setInterval(function(){autoAdvance();}, speed);
+					$("#pause_button").removeClass("paused");
+					$("#pause_button").addClass("playing");
+				} else {
+				clearInterval(playTimer);
+					$("#pause_button").removeClass("playing");
+					$("#pause_button").addClass("paused");
+				}
+			});
+			
+			// initiate autoplay on page load
+			$( document ).ready(function(){
+				$("#pause_button").trigger("click");
+			});
+				
+			/*$("#anim_speed").change(function()
 				{
 				WSS_Data_stop();
 				speed = $(this).val();
 				WSS_Data_relaunch(serie1,serie2,speed);
 				});
 				
-				var toggle = 0;
-				var pause_year;
-				$("#pause_button").click(function()
-				{
-				toggle = 1 - toggle;
-					$("#pause_button").text(function(){return toggle? 'Resume' : 'Pause';});
-						if (toggle)
-						{
-						pause_year = $("#tm_label").text();
-						WSS_Data_stop();
-						}
-						else {WSS_Data_update(serie1,serie2,speed,pause_year);}
-				});
+			var toggle = 0;
+			var pause_year;
+			$("#pause_button").click(function()
+			{
+			toggle = 1 - toggle;
+				$("#pause_button").text(function(){return toggle? 'Resume' : 'Pause';});
+					if (toggle)
+					{
+					pause_year = $("#tm_label").text();
+					WSS_Data_stop();
+					}
+					else {WSS_Data_update(serie1,serie2,speed,pause_year);}
+			});
 				
-				$("#replay").click(function() {WSS_Data_relaunch(serie1,serie2,speed);});
+				$("#replay").click(function() {WSS_Data_relaunch(serie1,serie2,speed);});*/
 		</script>
 	</body>
 </html>
