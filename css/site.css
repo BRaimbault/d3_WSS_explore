@@ -18,7 +18,7 @@ body {
 
 .country:hover{
   stroke: #fff;
-  stroke-width: 2px;
+  stroke-width: 1px;
   stroke-linejoin: round;
 }
 
@@ -50,6 +50,11 @@ div.tooltip {
   box-shadow: 0px 0px 2px 0px #a6a6a6; 
   opacity: 0.9; 
   position: absolute;
+}
+
+.active {
+  stroke: orange;
+  stroke-width: 2px;
 }
 
 .qw0-9 { fill:rgb(222,235,247); }

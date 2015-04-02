@@ -101,8 +101,6 @@ function WSS_Data_update()
 		var temp;
 		var serie = serie1 + "_" + serie2 + "_p";
 		
-		console.log(serie);
-		
 		var year = document.getElementById('year').innerHTML;
 		
 		
@@ -116,7 +114,8 @@ function WSS_Data_update()
 				} else {
 					temp = quantize[serie1](lookup[d.id][year][serie]);
 				}
-				return "country " + temp; });		
+				return "country " + temp; });
+		active.classed("active", true);		
 	}
 
 function WSS_Data_loading(error, world_topo, world_data) {
@@ -183,37 +182,113 @@ function WSS_Data_loading(error, world_topo, world_data) {
 					.classed("hidden", false)
 					.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
 					.html(name);
-				return document.getElementById('name').innerHTML="";
+				//return document.getElementById('name').innerHTML="";
 				})
 			.on("mouseout", function(d, i) {
 				tooltip
 					.classed("hidden", true);
-				return document.getElementById('name').innerHTML="";
-			});
+				//return document.getElementById('name').innerHTML="";
+				})
+			.on("click", clicked);
+			
+		var legendx=450;
+		var legendy=20;
+		var e = country.append("e");
+			
+		e.append("rect")
+			.attr("x", 0)
+			.attr("y", 0)
+			.attr("width", 10)
+			.attr("height", height)
+			.attr("fill","#ffffff");
+			
+		/*g.append("rect")
+			.attr("x", 0+legendx)
+			.attr("y", 20+legendy)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill",color[0])
+			.attr("stroke","#000000")
+			.attr("stroke-width",1);
+		g.append("text")
+			.attr("x",15+legendx)
+			.attr("y",28+legendy)
+			.text("No cases")
+			.attr("font-size","10px");
+		g.append("rect")
+			.attr("x", 0+legendx)
+			.attr("y", 40+legendy)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill",color[1]);*/
+		e.append("text")
+			.attr("x",15)
+			.attr("y",48)
+			.text("1 to 9 cases in the last 2 weeks")
+			.attr("font-size","50px");
+		/*g.append("rect")
+			.attr("x", 0+legendx)
+			.attr("y", 60+legendy)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill",color[2]);
+		g.append("text")
+			.attr("x",15+legendx)
+			.attr("y",68+legendy)
+			.text("10 to 24 cases in the last 2 weeks")
+			.attr("font-size","10px");
+		g.append("rect")
+			.attr("x", 0+legendx)
+			.attr("y", 80+legendy)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill",color[3]);
+		g.append("text")
+			.attr("x",15+legendx)
+			.attr("y",88+legendy)
+			.text("25 to 49 cases in the last 2 weeks")
+			.attr("font-size","10px");
+		g.append("rect")
+			.attr("x", 0+legendx)
+			.attr("y", 100+legendy)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("fill",color[4]);
+		g.append("text")
+			.attr("x",15+legendx)
+			.attr("y",108+legendy)
+			.text("50+ cases in the last 2 weeks")
+			.attr("font-size","10px");
+		g.append("circle")
+			.attr("cx",5+legendx)
+			.attr("cy",125+legendy)
+			.attr("r",5)
+			.attr("fill","steelblue");
+		g.append("text")
+			.attr("x",15+legendx)
+			.attr("y",128+legendy)
+			.text("Ebola Treatment Centre")
+			.attr("font-size","10px");*/
 	}
-
-/*function update_map(trans,year)  //animate changes to house prices in each district - not standard D3 (see comment below *)
-{
-    year++;
-    if (year <= end_year) 
-    { 
-	trans.transition()
-	    .duration(time_conversion)
-	    .delay(start_delay+(year-anim_start_year)*time_conversion) 
-	    .attr('fill',function()  { return polygon_color(this,year); }) //change colour of each polygon according to new average hosue price
-	    .ease('linear')
-	.call(update_map,year);
-    }
-}*/
 
 function autoAdvance(){
 	var current_year = document.getElementById('year').innerHTML;
-	console.log(current_year);
-	current_year=parseInt(current_year)+1;
-	console.log(current_year);
-	if(2013>current_year){
-		document.getElementById('year').innerHTML=current_year;
-		console.log(current_year);
+	if(2012>current_year){
 		WSS_Data_update();
+		current_year=parseInt(current_year)+1;
+		document.getElementById('year').innerHTML=current_year;
 	}
 }
+
+function clicked(d) {
+  document.getElementById('td_selected_name').innerHTML= d.properties.name;
+  if (active.node() === this) return reset();
+  active.classed("active", false);
+  active = d3.select(this).classed("active", true);
+	}
+
+function reset() {
+  active.classed("active", false);
+  active = d3.select(null);
+  document.getElementById('td_selected_name').innerHTML="Select a country";
+ 	}  

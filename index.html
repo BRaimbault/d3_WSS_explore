@@ -45,7 +45,7 @@
 					</div>
 					<div>
 						<table style="width:250px">
-						<tbody><tr><th id="td_selected_name" colspan="2">Country Details</th></tr>
+						<tbody><tr><th id="td_selected_name" colspan="2">Select a country</th></tr>
 						  <tr><td>Access to water (%)</td><td id="td_selected_price" class="quant clear_on_relaunch">262,486</td></tr>
 						  <tr><td>Annual increase</td><td id="td_selected_RoC" class="quant clear_on_relaunch">11.1%</td></tr>
 						  <tr><td class="time_series_name  clear_on_relaunch"></td>
@@ -86,24 +86,27 @@
 			// Redraw on window resize
 			d3.select(window).on("resize", throttle);
 				
-			var serie1 = 'Wat';
-			var serie2 = 'N';
-			var speed = 2000;
-		    var end_year = 2012;
+			var serie1 = 'Wat',
+				serie2 = 'N',
+				speed = 2000,
+		    	first_year = 1990,
+		    	end_year = 2012,
+		    	active = d3.select(null);
+		    
 			WSS_Data_firstdraw();
 			
 			$("#select_series1").change(function() 
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
-				$("#pause_button").trigger("click");
+				WSS_Data_update();
 				});
 			
 			$("#select_series2").change(function() 
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
-				$("#pause_button").trigger("click");
+				WSS_Data_update();
 				});
 				
 			var playTimer;
@@ -123,18 +126,25 @@
 				}
 			});
 			
+			$("#replay").click(function() {
+				$("#pause_button").trigger("click");
+				document.getElementById('year').innerHTML=first_year;
+				$("#pause_button").trigger("click");
+				});
+			
+			
 			// initiate autoplay on page load
 			$( document ).ready(function(){
 				$("#pause_button").trigger("click");
 			});
 				
-			/*$("#anim_speed").change(function()
+			$("#anim_speed").change(function()
 				{
-				WSS_Data_stop();
+				$("#pause_button").trigger("click");
 				speed = $(this).val();
-				WSS_Data_relaunch(serie1,serie2,speed);
+				$("#pause_button").trigger("click");
 				});
-				
+			/*	
 			var toggle = 0;
 			var pause_year;
 			$("#pause_button").click(function()
@@ -149,7 +159,7 @@
 					else {WSS_Data_update(serie1,serie2,speed,pause_year);}
 			});
 				
-				$("#replay").click(function() {WSS_Data_relaunch(serie1,serie2,speed);});*/
+			*/
 		</script>
 	</body>
 </html>
