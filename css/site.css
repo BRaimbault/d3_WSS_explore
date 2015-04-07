@@ -52,6 +52,13 @@ div.tooltip {
   position: absolute;
 }
 
+.legend {
+	fill: #f9f9f9;
+ 	stroke: #d0d0d0;
+  	stroke-width: 1px;
+  	stroke-linejoin: round;
+}
+
 .active {
   stroke: orange;
   stroke-width: 2px;

@@ -191,26 +191,122 @@ function WSS_Data_loading(error, world_topo, world_data) {
 				})
 			.on("click", clicked);
 			
-		var legendx=450;
-		var legendy=20;
-		var e = country.append("e");
+		var legdx=100;
+		var legdy=150;
+		var legx=-width/2+10;
+		var legy=height/2-10-legdy;
+		
+		var h = svg.append("g");
 			
-		e.append("rect")
-			.attr("x", 0)
-			.attr("y", 0)
-			.attr("width", 10)
-			.attr("height", height)
-			.attr("fill","#ffffff");
-			
-		/*g.append("rect")
-			.attr("x", 0+legendx)
-			.attr("y", 20+legendy)
+		h.append("rect")
+			.attr("x", legx)
+			.attr("y", legy)
+			.attr("width", legdx)
+			.attr("height", legdy)
+			.attr("class", "legend")
+			.attr("opacity","0.5");
+
+
+		h.append("text")
+			.attr("x",legx+2.5)
+			.attr("y",legy+2.5+10)
+			.text("Access to service")
+			.attr("font-size","10px")
+			.style("font-weight","bold");
+		h.append("text")
+			.attr("x",legx+2.5)
+			.attr("y",legy+2.5+20)
+			.text("% of the pop.")
+			.attr("font-size","10px");
+		
+		var ofsy1 = 21.5;
+		var ofsx1 = 10;
+		
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+20)
 			.attr("width", 10)
 			.attr("height", 10)
-			.attr("fill",color[0])
-			.attr("stroke","#000000")
-			.attr("stroke-width",1);
-		g.append("text")
+			.attr("class","qw8-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+30)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw7-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+40)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw6-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+50)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw5-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+60)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw4-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+70)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw3-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+80)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw2-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+90)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw1-9");
+		h.append("rect")
+			.attr("x", legx+ofsx1)
+			.attr("y", legy+ofsy1+100)
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("class","qw0-9");
+		
+		var ofsx2 = 25;
+		var ofsy2 = 35;
+			
+		h.append("text")
+			.attr("x",legx+ofsx2)
+			.attr("y",legy+10+ofsy2)
+			.text("100%")
+			.attr("font-size","10px");
+		h.append("text")
+			.attr("x",legx+ofsx2)
+			.attr("y",legy+10+22.5+ofsy2)
+			.text("75%")
+			.attr("font-size","10px");
+		h.append("text")
+			.attr("x",legx+ofsx2)
+			.attr("y",legy+10+45+ofsy2)
+			.text("50%")
+			.attr("font-size","10px");
+		h.append("text")
+			.attr("x",legx+ofsx2)
+			.attr("y",legy+10+67.5+ofsy2)
+			.text("25%")
+			.attr("font-size","10px");
+		h.append("text")
+			.attr("x",legx+ofsx2)
+			.attr("y",legy+10+90+ofsy2)
+			.text("0%")
+			.attr("font-size","10px");			
+			
+		/*g.append("text")
 			.attr("x",15+legendx)
 			.attr("y",28+legendy)
 			.text("No cases")
@@ -221,11 +317,6 @@ function WSS_Data_loading(error, world_topo, world_data) {
 			.attr("width", 10)
 			.attr("height", 10)
 			.attr("fill",color[1]);*/
-		e.append("text")
-			.attr("x",15)
-			.attr("y",48)
-			.text("1 to 9 cases in the last 2 weeks")
-			.attr("font-size","50px");
 		/*g.append("rect")
 			.attr("x", 0+legendx)
 			.attr("y", 60+legendy)
