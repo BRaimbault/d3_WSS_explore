@@ -2,6 +2,13 @@ body {
     font-family: 'Gotham-Light', sans-serif;
 }
 
+h2 {
+	margin-bottom: 1px;
+}
+
+.subtitle{
+	font-size: 10px;
+}
 .dashboard {
 	color:#000;
 } 
@@ -17,16 +24,17 @@ body {
 }
 
 .country:hover{
-  stroke: #fff;
+	cursor: pointer;
+/*  stroke: #fff;
   stroke-width: 1px;
-  stroke-linejoin: round;
+  stroke-linejoin: round;*/
 }
 
 .country {
   fill: #ccc;
   stroke: #fff;
   stroke-width: .5px;
-  stroke-linejoin: round;
+/*  stroke-linejoin: round;*/
 }
 
 #container {
@@ -35,6 +43,43 @@ body {
   border:1px solid #d0d0d0;
   border-radius: 2.5px;
   height:100%;
+}
+
+.grid .tick {
+    stroke: lightgrey;
+    stroke-opacity: 0.5;
+    shape-rendering: crispEdges;
+}
+.grid path {
+    stroke-width: 0;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #d0d0d0;
+	shape-rendering: crispEdges;
+	font-size: 12px;
+}
+
+.dot-global {
+  fill: white;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+.dot-country {
+  fill: white;
+  stroke: orange;
+  stroke-width: 1.5px;
+}
+.dot-global:hover{
+	cursor: pointer;
+}
+.dot_g_red {
+  fill: red;
+}
+.dot_c_red {
+  fill: red;
 }
 
 .hidden { 
@@ -61,10 +106,30 @@ div.tooltip {
 
 .active {
   stroke: orange;
-  stroke-width: 2px;
+  stroke-width: 1.5px;
 }
 
-.qw0-9 { fill:rgb(222,235,247); }
+.qw0-9{fill:rgb(215,48,39)}
+.qw1-9{fill:rgb(244,109,67)}
+.qw2-9{fill:rgb(253,174,97)}
+.qw3-9{fill:rgb(254,224,139)}
+.qw4-9{fill:rgb(255,255,191)}
+.qw5-9{fill:rgb(217,239,139)}
+.qw6-9{fill:rgb(166,217,106)}
+.qw7-9{fill:rgb(102,189,99)}
+.qw8-9{fill:rgb(26,152,80)}
+
+.qs0-9{fill:rgb(215,48,39)}
+.qs1-9{fill:rgb(244,109,67)}
+.qs2-9{fill:rgb(253,174,97)}
+.qs3-9{fill:rgb(254,224,139)}
+.qs4-9{fill:rgb(255,255,191)}
+.qs5-9{fill:rgb(217,239,139)}
+.qs6-9{fill:rgb(166,217,106)}
+.qs7-9{fill:rgb(102,189,99)}
+.qs8-9{fill:rgb(26,152,80)}
+
+/*.qw0-9 { fill:rgb(222,235,247); }
 .qw1-9 { fill:rgb(195,211,229); }
 .qw2-9 { fill:rgb(168,188,212); }
 .qw3-9 { fill:rgb(141,164,194); }
@@ -82,4 +147,4 @@ div.tooltip {
 .qs5-9 { fill:rgb(94,117,91); }
 .qs6-9 { fill:rgb(75,96,73); }
 .qs7-9 { fill:rgb(56,75,55); }
-.qs8-9 { fill:rgb(37,55,37); }
+.qs8-9 { fill:rgb(37,55,37); }*/
