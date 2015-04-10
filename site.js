@@ -14,7 +14,8 @@ var topo,
     g,
     height_map,
     width_map,
-    tooltip,
+    tooltip1,
+    tooltip2,
     WSS_topo,
     WSS_data,
     lookup,
@@ -50,7 +51,7 @@ function setup(width, height) {
 
 // If window resized
 function redraw() {
-		d3.selectAll('.tooltip').remove();
+		d3.selectAll('.tooltip1').remove();
 		d3.selectAll('svg').remove();
 		reset();
 	  	WSS_Data_firstdraw();
@@ -129,8 +130,8 @@ function WSS_Data_firstdraw()
 	width_map = document.getElementById('container').offsetWidth - 20;
 	height_map = width_map*2 / 3;
 	
-	// Tooltip
-	tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
+	// Tooltip1
+	tooltip1 = d3.select("#container").append("div").attr("class", "tooltip1 hidden");
 
 	setup(width_map, height_map);
 		
@@ -175,7 +176,7 @@ function WSS_Data_loading(error, world_topo, world_data) {
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_N_p'] = parseFloat(WSS_data[i].San_N_p);
 		};
 		
-		var temp1, temp2;
+		var temp1;
 		var year = 1990;
 		var serie = 'Wat_N_p';
 		
@@ -188,37 +189,32 @@ function WSS_Data_loading(error, world_topo, world_data) {
 				} else {
 					temp1 = quantize['Wat'](lookup[d.id][year][serie]);
 				}
-				return "country " + temp1; })
-			.attr("value", function(d, i) {
-				if(typeof lookup[d.id] == "undefined" || lookup[d.id][year][serie] == -9999) {
-					temp2 = "NA";
-				} else {
-					temp2 = lookup[d.id][year][serie];
-				}
-				return temp2; })
-			.attr("id", function(d,i){return "map" + d.id; })
-			.attr("title", function(d, i) {	return d.properties.name; });
-	
+				return "country " + temp1; });
+					
 		console.log(country);
-		//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip offset off mouse
+		//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip1 offset off mouse
 		var offsetL = document.getElementById('container').offsetLeft + (width_map / 2) + 40;
 		var offsetT = document.getElementById('container').offsetTop + (height_map / 2) + 20;
 	
-		//tooltips
+		//tooltip1s
 		country
 			.on("mousemove", function(d, i) {
 				var mouse = d3.mouse(svg_map.node()).map(function(d) { return parseInt(d); });
 				var name = d.properties.name;
-				/*console.log($("map"+d.id));
-				var value = d.attr("value");*/
-				tooltip
+				var value;
+				if(typeof lookup[d.id] == "undefined" || lookup[d.id][year][serie] == -9999) {
+					value = "NA";
+				} else {
+					value = lookup[d.id][year][serie].toFixed(1) + "%";
+				}
+				tooltip1
 					.classed("hidden", false)
 					.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
-					.html(name);// + ": " + value + "%");
+					.html(name + ": " + value);
 				//return document.getElementById('name').innerHTML="";
 				})
 			.on("mouseout", function(d, i) {
-				tooltip
+				tooltip1
 					.classed("hidden", true);
 				//return document.getElementById('name').innerHTML="";
 				})
@@ -367,12 +363,18 @@ function WSS_Data_loading(error, world_topo, world_data) {
 // Update the map (animation)
 function WSS_Data_update() 
 	{
+		d3.selectAll('.tooltip1').remove();
+		// Tooltip1
+		tooltip1 = d3.select("#container").append("div").attr("class", "tooltip1 hidden");
 		var country = g.selectAll(".country");
 		var temp;
 		var serie = serie1 + "_" + serie2 + "_p";
 		
 		var year = document.getElementById('year').innerHTML;
-		
+	
+		//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip1 offset off mouse
+		var offsetL = document.getElementById('container').offsetLeft + (width_map / 2) + 40;
+		var offsetT = document.getElementById('container').offsetTop + (height_map / 2) + 20;
 		
 		country
 			.attr("class", "country")
@@ -385,6 +387,29 @@ function WSS_Data_update()
 					temp = quantize[serie1](lookup[d.id][year][serie]);
 				}
 				return "country " + temp; });
+		
+		//tooltip1s
+		country
+			.on("mousemove", function(d, i) {
+				var mouse = d3.mouse(svg_map.node()).map(function(d) { return parseInt(d); });
+				var name = d.properties.name;
+				var value;
+				if(typeof lookup[d.id] == "undefined" || lookup[d.id][year][serie] == -9999) {
+					value = "NA";
+				} else {
+					value = lookup[d.id][year][serie].toFixed(1) + "%";
+				}
+				tooltip1
+					.classed("hidden", false)
+					.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
+					.html(name + ": " + value);
+				//return document.getElementById('name').innerHTML="";
+				})
+			.on("mouseout", function(d, i) {
+				tooltip1
+					.classed("hidden", true);
+				//return document.getElementById('name').innerHTML="";
+			});
 		
 		switch(serie1){
 			case "Wat":
@@ -517,6 +542,10 @@ function WSS_Data_update()
 
 // First Chart
 function generateLineChart(){
+	
+	//tooltip2
+	tooltip2 = d3.select("#line_total").append("div").attr("class", "tooltip2 hidden");
+	
 	var serie = serie1 + "_" + serie2 + "_p";
 	var year = document.getElementById('year').innerHTML;
 	var margin_chart = {top: 20, right: 20, bottom: 35, left: 55},
@@ -592,7 +621,7 @@ function generateLineChart(){
 		.attr("x", 40)
 		.attr("y", height_chart - 50)
 		.attr("dy", ".71em")
-		.text("Global");
+		.text("Global [g]");
 	g.append("rect")
 		.attr("x", 25)
 		.attr("y", height_chart - 50)
@@ -603,7 +632,7 @@ function generateLineChart(){
 		.attr("x", 40)
 		.attr("y", height_chart - 30)
 		.attr("dy", ".71em")
-		.text("Country");
+		.text("Country [c]");
 	g.append("rect")
 		.attr("x", 25)
 		.attr("y", height_chart - 30)
@@ -633,6 +662,10 @@ function generateLineChart(){
 		.attr("stroke","orange")
 		.attr("stroke-width","0px");
 	
+	//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip2 offset off mouse
+	var offsetL = 40;
+	var offsetT = 40;
+	
 	svg_chart.selectAll(".dot-global")
     	.data(table_global.filter(function(d) { return d.value; }))
   	.enter().append("circle")
@@ -640,7 +673,19 @@ function generateLineChart(){
 	    .attr("cx", line.x())
 	    .attr("cy", line.y())
 	    .attr("r", 2.5)
-	    .on("click", clicked_dot);
+	    .on("click", clicked_dot)
+	    .on("mousemove", function(d) {
+				var mouse = d3.mouse(svg_chart.node()).map(function(d) { return parseInt(d); });
+				var value = d.value * 100;
+				tooltip2
+					.classed("hidden", false)
+					.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
+					.html(value.toFixed(1) + "% [g]");
+				})
+		.on("mouseout", function(d) {
+				tooltip2
+					.classed("hidden", true);
+			});
 	    
 	var table_g_red = [{"key": new Date(year,0,1), "value": lookup[9999][year][serie]/100}];
 	svg_chart.selectAll(".dot_g_red")
@@ -664,6 +709,14 @@ function generateLineChart(){
 
 // Update Chart
 function updateLineChart(countryid,resetid){
+	d3.selectAll('.tooltip2').remove();
+		// Tooltip2
+	tooltip2 = d3.select("#line_total").append("div").attr("class", "tooltip2 hidden");
+		//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip2 offset off mouse
+	var offsetL = 40;
+	var offsetT = 40;
+
+	
 	if(resetid){
 		d3.selectAll(".chart_line2")
 			.attr("stroke-width","0px");
@@ -750,7 +803,19 @@ function updateLineChart(countryid,resetid){
 	    .attr("cx", line.x())
 	    .attr("cy", line.y())
 	    .attr("r", 2.5)
-	    .on("click", clicked_dot);
+	    .on("click", clicked_dot)
+	    .on("mousemove", function(d) {
+			var mouse = d3.mouse(svg_chart.node()).map(function(d) { return parseInt(d); });
+			var value = d.value * 100;
+			tooltip2
+				.classed("hidden", false)
+				.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
+				.html(value.toFixed(1) + "% [g]");
+			})
+		.on("mouseout", function(d) {
+				tooltip2
+					.classed("hidden", true);
+			});
 	
 	svg_chart.selectAll(".dot-country")
     	.data(table_country.filter(function(d) { return d.value; }))
@@ -758,7 +823,19 @@ function updateLineChart(countryid,resetid){
 	    .attr("class", "dot-country")
 	    .attr("cx", line.x())
 	    .attr("cy", line.y())
-	    .attr("r", 2.5);
+	    .attr("r", 2.5)
+	    .on("mousemove", function(d) {
+			var mouse = d3.mouse(svg_chart.node()).map(function(d) { return parseInt(d); });
+			var value = d.value * 100;
+			tooltip2
+				.classed("hidden", false)
+				.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
+				.html(value.toFixed(1) + "% [c]");
+			})
+		.on("mouseout", function(d) {
+				tooltip2
+					.classed("hidden", true);
+			});
 	    
 	svg_chart.selectAll(".dot_g_red")
 		.remove();
