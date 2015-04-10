@@ -23,7 +23,7 @@
 						For feedback email <a href="mailto:raimbault.bruno@gmail.com">raimbault.bruno@gmail.com</a>
 					</p>
 					<p>
-						Data source: <a href="http://www.wssinfo.org">www.wssinfo.org</a>
+						Data source: <a href="http://www.wssinfo.org">www.wssinfo.org</a> / World map: <a href="http://www.naturalearthdata.com/">www.naturalearthdata.com</a>
 					</p>
 				</div>
 			</div>
@@ -44,17 +44,18 @@
 					<div id="info">
 						<h1 id="name"></h1>
 						<div style="margin:10px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
-						  <table><tbody><tr><td style="width: 500px"><h4>Animation options</h4></td></tr></tbody></table>
-						  <button id="pause_button" class="paused" style="width:125px;margin-bottom:0">Play</button><button id="replay" style="width:125px">Replay</button>
+						  <table><tbody><tr><td style="width: 300px"><h4>Animation options</h4></td><td style="width: 400px"><h4>Focus</h4></td></tr>
+						  <tr><td>	
+						  <button id="pause_button" class="paused" style="width:100px;margin-bottom:0">Play</button><button id="replay" style="width:100px">Replay</button>
 						  <form onsubmit="return false">
 						  
 						  <br>
-						  <p>Choose time series to display on the map</p>
+						  <p>Choose time series to display</p>
 						  
-						  <select style="width:125px" id="select_series1">
+						  <select style="width:100px" id="select_series1">
 						  		<option value="Wat" selected="selected">Access to water</option>
 						  		<option value="San">Access to sanitation</option>
-						  </select><select style="width:125px" id="select_series2">
+						  </select><select style="width:100px" id="select_series2">
 						  		<option value="N" selected="selected">on average </option>
 						  		<option value="R">in rural areas</option>
 						  		<option value="U">in urban areas</option>
@@ -62,8 +63,21 @@
 						  <br>		
 						  
 						  <p><br>Choose animation speed<br>(milliseconds per year, default=2000)</p>
-						  <input style="width:250px" id="anim_speed" min="1" max="20000" value="2000" autocomplete="off" type="number">
+						  <input style="width:200px" id="anim_speed" min="1" max="20000" value="2000" autocomplete="off" type="number">
 						  </form>
+						  </td><td>
+						  	<input type="radio" name="group1" value="GLO"checked> Global<br>
+						  	<input type="radio" name="group1" value="IND"> Industrialized countries<br>
+							<input type="radio" name="group1" value="CEE"> Central and Eastern Europe, CIS<br>
+						  	<input type="radio" name="group1" value="EAP"> East Asia and the Pacific<br>
+						  	<input type="radio" name="group1" value="CEE"> South Asia<br>
+						  	<input type="radio" name="group1" value="MENA"> Middle East and North Africa<br>
+						  	<input type="radio" name="group1" value="ESA"> Eastern and Southern Africa<br>
+						  	<input type="radio" name="group1" value="WCA"> West and Central Africa<br>
+						  	<input type="radio" name="group1" value="LCA"> Latin America and the Caribbean<br>
+						  <br>
+						  </td>
+						  </tr></tbody></table>
 						 </div>	
 					</div>
 				</div>
