@@ -16,6 +16,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<h2>WSS Data</h2>
+					<p class="subtitle">Water Supply and Sanitation (JMP WHO/UNICEF)</p>
 				</div>
 				<div class="col-md-8 spacersm">
 					<p>
@@ -33,31 +34,18 @@
 					<div id="container"></div>
 				</div>
 				<div class="col-md-5">
+				<table><tbody><tr><td style="width: 500px"><h4>Country details</h4></td></tr></tbody></table>
 					<div>
 						<table style="width:250px">
-						<tbody>
-						<tr><th colspan="2">Global Situation</th></tr>
-						<tr><td>Access to water</td><td id="td_WSS_price" class="quant clear_on_relaunch">in progress...</td></tr>
-						<tr><td>Access to sanitation</td><td id="td_WSS_RoC" class="quant clear_on_relaunch">in progress...</td></tr>
-						<tr><td class="time_series_name clear_on_relaunch" id="td_WSS_ts_name"></td>
-						<td id="td_WSS_ts_datum" class="quant clear_on_relaunch"></td></tr>
-						</tbody></table>
-					</div>
-					<div>
-						<table style="width:250px">
-						<tbody><tr><th id="td_selected_name" colspan="2">Select a country</th></tr>
-						<tr><td>Access to water</td><td id="td_selected_price" class="quant clear_on_relaunch">in progress...</td></tr>
-						<tr><td>Access to sanitation</td><td id="td_selected_RoC" class="quant clear_on_relaunch">in progress...</td></tr>
-						<tr><td class="time_series_name clear_on_relaunch"></td>
-						<td id="td_selected_ts_datum" class="quant clear_on_relaunch"></td></tr>
-						<tr><td></td><td></td></tr>
+						<tbody><tr><th id="td_selected_name" colspan="2">Select a country or year</th></tr>
 						</tbody></table>
 					</div>	
+					<div id="line_total"></div>
 					<div id="info">
 						<h1 id="name"></h1>
-						<div style="margin:50px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
-						  <p><b>Animation options</b></p>
-						  <button id="pause_button" class="paused" style="width:125px;margin-bottom:0">Pause</button><button id="replay" style="width:125px">Replay</button>
+						<div style="margin:10px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
+						  <table><tbody><tr><td style="width: 500px"><h4>Animation options</h4></td></tr></tbody></table>
+						  <button id="pause_button" class="paused" style="width:125px;margin-bottom:0">Play</button><button id="replay" style="width:125px">Replay</button>
 						  <form onsubmit="return false">
 						  
 						  <br>
@@ -68,8 +56,8 @@
 						  		<option value="San">Access to sanitation</option>
 						  </select><select style="width:125px" id="select_series2">
 						  		<option value="N" selected="selected">on average </option>
-						  		<option value="U">in rural areas</option>
-						  		<option value="R">in urban areas</option>
+						  		<option value="R">in rural areas</option>
+						  		<option value="U">in urban areas</option>
 						  </select>
 						  <br>		
 						  
@@ -86,12 +74,13 @@
 			// Redraw on window resize
 			d3.select(window).on("resize", throttle);
 				
-			var serie1 = 'Wat',
-				serie2 = 'N',
+			var serie1 = "Wat",
+				serie2 = "N",
 				speed = 2000,
 		    	first_year = 1990,
 		    	end_year = 2012,
-		    	active = d3.select(null);
+		    	active = d3.select(null),
+		    	active_id = null;
 		    
 			WSS_Data_firstdraw();
 			
@@ -99,6 +88,7 @@
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
+				updateLineChart(active_id,false);
 				WSS_Data_update();
 				});
 			
@@ -106,6 +96,7 @@
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
+				updateLineChart(active_id,false);
 				WSS_Data_update();
 				});
 				
@@ -128,15 +119,15 @@
 			
 			$("#replay").click(function() {
 				$("#pause_button").trigger("click");
-				document.getElementById('year').innerHTML=first_year;
+				document.getElementById('year').innerHTML=first_year-1;
 				$("#pause_button").trigger("click");
-				});
+			});
 			
 			
 			// initiate autoplay on page load
-			$( document ).ready(function(){
+			/*$( document ).ready(function(){
 				$("#pause_button").trigger("click");
-			});
+			});*/
 				
 			$("#anim_speed").change(function()
 				{
@@ -144,22 +135,6 @@
 				speed = $(this).val();
 				$("#pause_button").trigger("click");
 				});
-			/*	
-			var toggle = 0;
-			var pause_year;
-			$("#pause_button").click(function()
-			{
-			toggle = 1 - toggle;
-				$("#pause_button").text(function(){return toggle? 'Resume' : 'Pause';});
-					if (toggle)
-					{
-					pause_year = $("#tm_label").text();
-					WSS_Data_stop();
-					}
-					else {WSS_Data_update(serie1,serie2,speed,pause_year);}
-			});
-				
-			*/
 		</script>
 	</body>
 </html>
