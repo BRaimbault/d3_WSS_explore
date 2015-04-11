@@ -4,7 +4,7 @@
 var map_clicked = false;
 
 // Enables zoom
-var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", move);
+var zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", move);
 
 // Main declarations
 var topo,
@@ -19,6 +19,7 @@ var topo,
     WSS_topo,
     WSS_data,
     lookup,
+    lookup_reg,
     svg_chart;
 
 // Colorscales
@@ -73,6 +74,9 @@ function move() {
 		var s = d3.event.scale;
 		var h = height_map / 3;
 	
+		console.log(t);
+		console.log(s);
+	
 		t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
 		t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));
 	
@@ -112,13 +116,11 @@ function clicked_dot(d) {
 	WSS_Data_update();
 	}
 
-
-
 function reset() {
 	active.classed("active", false);
   	active = d3.select(null);
   	active_id = null;
-  	document.getElementById('td_selected_name').innerHTML="Select a country";
+  	document.getElementById('td_selected_name').innerHTML="Select a country or click the curves";
  	}  		
 
 // *  Drawing-map Functions      *
@@ -150,6 +152,7 @@ function WSS_Data_loading(error, world_topo, world_data) {
 	WSS_data = world_data;
 	
 	lookup = {};
+	lookup_reg = {};
 	for (var i = 0, len = WSS_data.length; i < len; i++) {
 		if (typeof lookup[WSS_data[i].ID] == "undefined") {
 			lookup[WSS_data[i].ID] = {};
@@ -157,25 +160,28 @@ function WSS_Data_loading(error, world_topo, world_data) {
 		if (typeof lookup[WSS_data[i].ID[WSS_data[i].Year]] == "undefined") {
 			lookup[WSS_data[i].ID][WSS_data[i].Year] = {};
 			};	
-	    lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_U_t'] = parseFloat(WSS_data[i].Pop_U_t);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_U_p'] = parseFloat(WSS_data[i].Pop_U_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_R_t'] = parseFloat(WSS_data[i].Pop_R_t);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_R_p'] = parseFloat(WSS_data[i].Pop_R_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_N_t'] = parseFloat(WSS_data[i].Pop_N_t);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_U_t'] = parseFloat(WSS_data[i].Wat_U_t);
+	   // lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_U_t'] = parseFloat(WSS_data[i].Pop_U_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_U_p'] = parseFloat(WSS_data[i].Pop_U_p);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_R_t'] = parseFloat(WSS_data[i].Pop_R_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_R_p'] = parseFloat(WSS_data[i].Pop_R_p);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Pop_N_t'] = parseFloat(WSS_data[i].Pop_N_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_U_t'] = parseFloat(WSS_data[i].Wat_U_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_U_p'] = parseFloat(WSS_data[i].Wat_U_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_R_t'] = parseFloat(WSS_data[i].Wat_R_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_R_t'] = parseFloat(WSS_data[i].Wat_R_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_R_p'] = parseFloat(WSS_data[i].Wat_R_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_N_t'] = parseFloat(WSS_data[i].Wat_N_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_N_t'] = parseFloat(WSS_data[i].Wat_N_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['Wat_N_p'] = parseFloat(WSS_data[i].Wat_N_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_U_t'] = parseFloat(WSS_data[i].San_U_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['San_U_t'] = parseFloat(WSS_data[i].San_U_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_U_p'] = parseFloat(WSS_data[i].San_U_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_R_t'] = parseFloat(WSS_data[i].San_R_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['San_R_t'] = parseFloat(WSS_data[i].San_R_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_R_p'] = parseFloat(WSS_data[i].San_R_p);
-		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_N_t'] = parseFloat(WSS_data[i].San_N_t);
+		// lookup[WSS_data[i].ID][WSS_data[i].Year]['San_N_t'] = parseFloat(WSS_data[i].San_N_t);
 		lookup[WSS_data[i].ID][WSS_data[i].Year]['San_N_p'] = parseFloat(WSS_data[i].San_N_p);
 		};
-		
+	
+	for (var i = 0, len = unicef_reg.length; i < len; i++) {
+		lookup_reg[unicef_reg[i].id] = unicef_reg[i].reg;
+	}
 		var temp1;
 		var year = 1990;
 		var serie = 'Wat_N_p';
@@ -381,7 +387,7 @@ function WSS_Data_update()
 			.attr("d", path)
 			.attr("class", function(d, i) {
 
-				if(typeof lookup[d.id] == "undefined" || lookup[d.id][year][serie] == -9999) {
+				if(typeof lookup[d.id] == "undefined" || lookup[d.id][year][serie] == -9999 || (lookup_reg[d.id] !== focus && focus !== "GLO") ) {
 					temp = "";
 				} else {
 					temp = quantize[serie1](lookup[d.id][year][serie]);
@@ -511,7 +517,6 @@ function WSS_Data_update()
 		d3.selectAll(".chart_line3")
 			.datum(table_g_redl)
 			.attr("d", line);
-		console.log(active_id);
 		
 		if (active_id !== null) {
 			var	table_c_red = [{"key": new Date(year,0,1), "value": lookup[active_id][year][serie]/100}];
@@ -619,23 +624,34 @@ function generateLineChart(){
 			.style("font-weight","bold");;
 	g.append("text")
 		.attr("x", 40)
-		.attr("y", height_chart - 50)
+		.attr("y", height_chart - 60)
 		.attr("dy", ".71em")
 		.text("Global [g]");
 	g.append("rect")
 		.attr("x", 25)
-		.attr("y", height_chart - 50)
+		.attr("y", height_chart - 60)
 		.attr("width", 10)
 		.attr("height", 10)
 		.attr("fill","#ccc");
 	g.append("text")
 		.attr("x", 40)
-		.attr("y", height_chart - 30)
+		.attr("y", height_chart - 40)
+		.attr("dy", ".71em")
+		.text("Region [r]");
+	g.append("rect")
+		.attr("x", 25)
+		.attr("y", height_chart - 40)
+		.attr("width", 10)
+		.attr("height", 10)
+		.attr("fill", "#4c4c4c");
+	g.append("text")
+		.attr("x", 40)
+		.attr("y", height_chart - 20)
 		.attr("dy", ".71em")
 		.text("Country [c]");
 	g.append("rect")
 		.attr("x", 25)
-		.attr("y", height_chart - 30)
+		.attr("y", height_chart - 20)
 		.attr("width", 10)
 		.attr("height", 10)
 		.attr("fill", "orange");
@@ -653,6 +669,14 @@ function generateLineChart(){
 		.attr("fill","none")
 		.attr("stroke","#ccc")
 		.attr("stroke-width","2px");
+	
+	svg_chart.append("path")
+		.datum(table_global)
+		.attr("class", "chart_line4")
+		.attr("d", line)
+		.attr("fill","none")
+		.attr("stroke","#4c4c4c")
+		.attr("stroke-width","0px");
 		
 	svg_chart.append("path")
 		.datum(table_global)
@@ -716,7 +740,13 @@ function updateLineChart(countryid,resetid){
 	var offsetL = 40;
 	var offsetT = 40;
 
-	
+	if(focus == "GLO"){
+		d3.selectAll(".chart_line4")
+			.attr("stroke-width","0px");
+		svg_chart.selectAll(".dot-region")
+		.remove();			
+	}
+
 	if(resetid){
 		d3.selectAll(".chart_line2")
 			.attr("stroke-width","0px");
@@ -754,6 +784,8 @@ function updateLineChart(countryid,resetid){
 	
 	var table_country=[];
 	var table_global=[];
+	var table_region=[];
+	
 	
 	for(var i = first_year, end = end_year; i < end+1; i++) {
 		if(countryid !== null){
@@ -766,7 +798,14 @@ function updateLineChart(countryid,resetid){
 		if(lookup[9999][i][serie] !== -9999){
 			table_global.push({"key": new Date(i,0,1), "value": lookup[9999][i][serie]/100});
 		}else{
-			table_country.push({"key": new Date(i,0,1), "value": null});
+			table_global.push({"key": new Date(i,0,1), "value": null});
+		}
+		if(focus !== "GLO"){
+			if(lookup[focus_id][i][serie] !== -9999){
+				table_region.push({"key": new Date(i,0,1), "value": lookup[focus_id][i][serie]/100});
+			}else{
+				table_region.push({"key": new Date(i,0,1), "value": null});
+			}
 		}
 	};
 		
@@ -785,13 +824,20 @@ function updateLineChart(countryid,resetid){
 	d3.selectAll(".chart_line")
 		.datum(table_global)
 		.attr("d", line);
-	
+		
+	d3.selectAll(".chart_line4")
+		.datum(table_region)
+		.attr("d", line)
+		.attr("stroke-width","2px");
+			
 	d3.selectAll(".chart_line2")
 		.datum(table_country)
 		.attr("d", line)
 		.attr("stroke-width","2px");
 	
 	svg_chart.selectAll(".dot-global")
+		.remove();
+	svg_chart.selectAll(".dot-region")
 		.remove();
 	svg_chart.selectAll(".dot-country")
 		.remove();
@@ -816,6 +862,27 @@ function updateLineChart(countryid,resetid){
 				tooltip2
 					.classed("hidden", true);
 			});
+
+	svg_chart.selectAll(".dot-region")
+    	.data(table_region.filter(function(d) { return d.value; }))
+  	.enter().append("circle")
+	    .attr("class", "dot-region")
+	    .attr("cx", line.x())
+	    .attr("cy", line.y())
+	    .attr("r", 2.5)
+   	    .on("click", clicked_dot)
+	    .on("mousemove", function(d) {
+			var mouse = d3.mouse(svg_chart.node()).map(function(d) { return parseInt(d); });
+			var value = d.value * 100;
+			tooltip2
+				.classed("hidden", false)
+				.attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
+				.html(value.toFixed(1) + "% [r]");
+			})
+		.on("mouseout", function(d) {
+				tooltip2
+					.classed("hidden", true);
+			});
 	
 	svg_chart.selectAll(".dot-country")
     	.data(table_country.filter(function(d) { return d.value; }))
@@ -824,6 +891,7 @@ function updateLineChart(countryid,resetid){
 	    .attr("cx", line.x())
 	    .attr("cy", line.y())
 	    .attr("r", 2.5)
+   	    .on("click", clicked_dot)
 	    .on("mousemove", function(d) {
 			var mouse = d3.mouse(svg_chart.node()).map(function(d) { return parseInt(d); });
 			var value = d.value * 100;
@@ -871,4 +939,30 @@ function updateLineChart(countryid,resetid){
 		    .attr("r", 1.75);
 		};
 	}
+}
+
+
+function zoom_focus() {
+
+	var zoom_table = {
+		"GLO": {"t": [0, 0],"s":  1,"h":height_map / 3},
+		"IND": {"t": [-6, 52],"s":  1,"h":height_map / 3},
+		"CEE": {"t": [-316, 259],"s":  4.5,"h":height_map / 3},
+		"EAP": {"t": [-586, -13],"s":  2.75,"h":height_map / 3},
+		"SA": {"t": [-660, -30],"s":  5,"h":height_map / 3},
+		"MENA": {"t": [-183, -14],"s":  4.5,"h":height_map / 3},
+		"ESA": {"t": [-195, -275],"s":  4,"h":height_map / 3},
+		"WCA": {"t": [-54, -200],"s":  5.5,"h":height_map / 3},
+		"LAC": {"t": [325, -180],"s":  2.25,"h":height_map / 3}
+		};
+
+	var t = zoom_table[focus].t;
+	var s = zoom_table[focus].s;
+	var h = zoom_table[focus].h;
+	
+	t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
+	t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));
+
+	zoom.translate(t);
+	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 }
