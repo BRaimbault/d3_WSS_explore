@@ -9,6 +9,7 @@
 		<script src="js/d3.v3.min.js" type="text/javascript"></script>
 		<script src="js/topojson.v1.min.js" type="text/javascript"></script>
 		<script src="js/queue.v1.min.js" type="text/javascript"></script>
+		<script src="data/unicefreg.js" type="text/javascript"></script>
 		<script src="site.js" type="text/javascript"></script>
 	</head>
 	<body>
@@ -20,62 +21,62 @@
 				</div>
 				<div class="col-md-8 spacersm">
 					<p>
-						For feedback email <a href="mailto:raimbault.bruno@gmail.com">raimbault.bruno@gmail.com</a>
+						For feedback email <a href="mailto:raimbault.bruno@gmail.com?subject=WSSExplore-Feedback">raimbault.bruno@gmail.com</a>
 					</p>
 					<p>
-						Data source: <a href="http://www.wssinfo.org">www.wssinfo.org</a> / World map: <a href="http://www.naturalearthdata.com/">www.naturalearthdata.com</a>
+						Sources - Data: <a href="http://www.wssinfo.org">www.wssinfo.org</a> - Map: <a href="http://www.naturalearthdata.com/">www.naturalearthdata.com</a>
 					</p>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-7">
-					<table><tbody><tr><td style="width: 105px"><h4>World Map - </h4></td><td><h4><div id="year">1990</div></h4></td></tr></tbody></table>
+					<table><tbody><tr><td style="width: 650px"><h4 id="title_serie">Access to <a href="http://www.wssinfo.org/definitions-methods/watsan-categories/">improved</a> water supply by country, on average</h4></td><td><h4>[</h4></td><td><h4><div id="year">1990</div></h4></td><td><h4>]</h4></td></tr></tbody></table>
 					<div id="container"></div>
 				</div>
 				<div class="col-md-5">
 				<table><tbody><tr><td style="width: 500px"><h4>Country details</h4></td></tr></tbody></table>
 					<div>
-						<table style="width:250px">
-						<tbody><tr><th id="td_selected_name" colspan="2">Select a country or year</th></tr>
+						<table style="width:500px">
+						<tbody><tr><th id="td_selected_name" colspan="2">Select a country or click the curves</th></tr>
 						</tbody></table>
 					</div>	
 					<div id="line_total"></div>
 					<div id="info">
 						<h1 id="name"></h1>
-						<div style="margin:10px -10px 0 0;font-size:12px;line-height:120%;text-align:left">
-						  <table><tbody><tr><td style="width: 300px"><h4>Animation options</h4></td><td style="width: 400px"><h4>Focus</h4></td></tr>
-						  <tr><td>	
-						  <button id="pause_button" class="paused" style="width:100px;margin-bottom:0">Play</button><button id="replay" style="width:100px">Replay</button>
-						  <form onsubmit="return false">
-						  
+						<div style="margin:10px -20px 0 0;font-size:12px;line-height:120%;text-align:left">
+						  <table><tbody><tr><td style="width: 400px"><h4>Focus (<a href="http://www.unicef.org/infobycountry/">UNICEF regions</a>)</h4></td><td style="width: 300px"><h4>Options</h4></td></tr>
+						  <tr><td>
+						  	<input type="radio" name="group1" id="GLO" value="GLO" checked> Global<br>
+						  	<input type="radio" name="group1" id="IND" value="IND"> Industrialized countries<br>
+							<input type="radio" name="group1" id="CEE" value="CEE"> Central and Eastern Europe, CIS<br>
+						  	<input type="radio" name="group1" id="EAP" value="EAP"> East Asia and the Pacific<br>
+						  	<input type="radio" name="group1" id="SA" value="SA"> South Asia<br>
+						  	<input type="radio" name="group1" id="MENA" value="MENA"> Middle East and North Africa<br>
+						  	<input type="radio" name="group1" id="ESA" value="ESA"> Eastern and Southern Africa<br>
+						  	<input type="radio" name="group1" id="WCA" value="WCA"> West and Central Africa<br>
+						  	<input type="radio" name="group1" id="LAC" value="LAC"> Latin America and the Caribbean<br>
 						  <br>
-						  <p>Choose time series to display</p>
+						  </td><td>
+						  <p>Choose time series to display:
+						  	<br>Access to...</p>
 						  
 						  <select style="width:100px" id="select_series1">
-						  		<option value="Wat" selected="selected">Access to water</option>
-						  		<option value="San">Access to sanitation</option>
+						  		<option value="Wat" selected="selected">water supply</option>
+						  		<option value="San">sanitation</option>
 						  </select><select style="width:100px" id="select_series2">
 						  		<option value="N" selected="selected">on average </option>
 						  		<option value="R">in rural areas</option>
 						  		<option value="U">in urban areas</option>
 						  </select>
-						  <br>		
-						  
-						  <p><br>Choose animation speed<br>(milliseconds per year, default=2000)</p>
-						  <input style="width:200px" id="anim_speed" min="1" max="20000" value="2000" autocomplete="off" type="number">
+					
+						  <p> <br>Animation controls:</p>		
+						  <button id="pause_button" class="paused" style="width:100px;margin-bottom:0">Play</button><button id="replay" style="width:100px">Replay</button>
+						  <form onsubmit="return false"> 	
+						<br>		
+						  <p>Choose animation speed:<br>(milliseconds per year)</p>
+						  <input style="width:200px" id="anim_speed" min="1" max="20000" value="1000" autocomplete="off" type="number">
 						  </form>
-						  </td><td>
-						  	<input type="radio" name="group1" value="GLO"checked> Global<br>
-						  	<input type="radio" name="group1" value="IND"> Industrialized countries<br>
-							<input type="radio" name="group1" value="CEE"> Central and Eastern Europe, CIS<br>
-						  	<input type="radio" name="group1" value="EAP"> East Asia and the Pacific<br>
-						  	<input type="radio" name="group1" value="CEE"> South Asia<br>
-						  	<input type="radio" name="group1" value="MENA"> Middle East and North Africa<br>
-						  	<input type="radio" name="group1" value="ESA"> Eastern and Southern Africa<br>
-						  	<input type="radio" name="group1" value="WCA"> West and Central Africa<br>
-						  	<input type="radio" name="group1" value="LCA"> Latin America and the Caribbean<br>
-						  <br>
 						  </td>
 						  </tr></tbody></table>
 						 </div>	
@@ -90,18 +91,76 @@
 				
 			var serie1 = "Wat",
 				serie2 = "N",
-				speed = 2000,
+				speed = 1000,
 		    	first_year = 1990,
 		    	end_year = 2012,
 		    	active = d3.select(null),
-		    	active_id = null;
+		    	active_id = null,
+		    	focus = "GLO",
+		    	focus_id = null;
 		    
 			WSS_Data_firstdraw();
+			
+			$("#GLO, #IND, #CEE, #EAP, #SA, #MENA, #ESA, #WCA, #LAC").change(function(){ //"input[name=radio1]:radio"
+				if(document.getElementById('GLO').checked){
+					focus = "GLO";
+					focus_id=null;
+				}else if(document.getElementById('IND').checked){
+					focus = "IND";
+					focus_id=10001;
+				}else if(document.getElementById('CEE').checked){
+					focus = "CEE";
+					focus_id=10002;
+				}else if(document.getElementById('EAP').checked){
+					focus = "EAP";
+					focus_id=10003;
+				}else if(document.getElementById('SA').checked){
+					focus = "SA";
+					focus_id=10004;
+				}else if(document.getElementById('MENA').checked){
+					focus = "MENA";
+					focus_id=10005;
+				}else if(document.getElementById('ESA').checked){
+					focus = "ESA";
+					focus_id=10006;
+				}else if(document.getElementById('WCA').checked){
+					focus = "WCA";
+					focus_id=10007;
+				}else if(document.getElementById('LAC').checked){
+					focus = "LAC";
+					focus_id=10008;
+				}
+				updateLineChart(active_id,false);
+				console.log(focus);
+				zoom_focus();
+				WSS_Data_update();
+			});
 			
 			$("#select_series1").change(function() 
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
+				var map_title="Access to <a href=http://www.wssinfo.org/definitions-methods/watsan-categories/>improved</a>";
+				switch(serie1){
+					case "Wat":
+						map_title=map_title+" water supply by country, ";															
+						break;
+					case "San":
+						map_title=map_title+" sanitation by country, ";	
+						break;
+					}
+				switch(serie2){
+					case "N":
+						map_title=map_title+"on average";
+						break;
+					case "U":
+						map_title=map_title+"in urban areas";
+						break;
+					case "R":
+						map_title=map_title+"in rural areas";
+						break;
+					}
+				$('#title_serie')[0].innerHTML = map_title;
 				updateLineChart(active_id,false);
 				WSS_Data_update();
 				});
@@ -110,6 +169,27 @@
 				{
 				serie1 = $("#select_series1 option:selected").attr("value");
 				serie2 = $("#select_series2 option:selected").attr("value");
+				var map_title="Access to <a href=http://www.wssinfo.org/definitions-methods/watsan-categories/>improved</a>";
+				switch(serie1){
+					case "Wat":
+						map_title=map_title+" water supply by country, ";															
+						break;
+					case "San":
+						map_title=map_title+" sanitation by country, ";	
+						break;
+					}
+				switch(serie2){
+					case "N":
+						map_title=map_title+"on average";
+						break;
+					case "U":
+						map_title=map_title+"in urban areas";
+						break;
+					case "R":
+						map_title=map_title+"in rural areas";
+						break;
+					}
+				$('#title_serie')[0].innerHTML = map_title;
 				updateLineChart(active_id,false);
 				WSS_Data_update();
 				});
