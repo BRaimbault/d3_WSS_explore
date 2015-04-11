@@ -67,12 +67,23 @@ h2 {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+.dot-region {
+  fill: white;
+  stroke: #4c4c4c;
+  stroke-width: 1.5px;
+}
 .dot-country {
   fill: white;
   stroke: orange;
   stroke-width: 1.5px;
 }
 .dot-global:hover{
+	cursor: pointer;
+}
+.dot-region:hover{
+	cursor: pointer;
+}
+.dot-country:hover{
 	cursor: pointer;
 }
 .dot_g_red {
@@ -86,7 +97,18 @@ h2 {
   display: none; 
 }
 
-div.tooltip {
+div.tooltip1 {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+div.tooltip2 {
   color: #222; 
   background: #fff; 
   padding: .5em; 
