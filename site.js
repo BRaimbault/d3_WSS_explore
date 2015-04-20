@@ -72,7 +72,7 @@ function throttle() {
 // Enables pan	
 function move() {
 	
-		var t = d3.event.translate;
+		/*var t = d3.event.translate;
 		var s = d3.event.scale;
 		var h = height_map / 3;
 		
@@ -86,7 +86,7 @@ function move() {
 		zoom.translate(t);
 		g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 		
-		console.log("l87");
+		console.log("l87");*/
 	}
 
 // *  Animation Functions      *	
@@ -961,7 +961,7 @@ function zoom_focus() {
 		"LAC": {"t": [325, -180],"s":  2.25,"h":height_map / 3}
 		};
 
-	console.log("TEST OK OK OK OK OK");
+	console.log("TEST OK OK OK OK OK OK");
 
 	var t = zoom_table[focus].t;
 	var s = zoom_table[focus].s;
@@ -981,6 +981,7 @@ function zoom_focus() {
 	zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 	
+	height_map = 
 	//zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", move);
 	//svg_map.call(zoom);
 	
