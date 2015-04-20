@@ -961,13 +961,13 @@ function zoom_focus() {
 		"LAC": {"t": [325, -180],"s":  2.25,"h":height_map / 3}
 		};
 
-	console.log("TEST OK OK OK OK OK OK");
+	console.log("TEST OK OK OK OK OK OK OOK");
 
 	var t = zoom_table[focus].t;
 	var s = zoom_table[focus].s;
 	var h = zoom_table[focus].h;
 	
-	console.log(t);
+	/*console.log(t);
 	console.log(s);
 	
 	//d3.event.translate = t;
@@ -976,14 +976,16 @@ function zoom_focus() {
 	console.log(h);
 	
 	t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
-	t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));
+	t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));*/
 
-	zoom.translate(t);
+	g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+
+	/*zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 	
 	height_map = 
 	//zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", move);
-	//svg_map.call(zoom);
+	//svg_map.call(zoom);*/
 	
 	console.log("l976");
 }
