@@ -961,11 +961,15 @@ function zoom_focus() {
 		"LAC": {"t": [325, -180],"s":  2.25,"h":height_map / 3}
 		};
 
-	console.log("TEST OK OK OK OK OK OK OOK");
+	console.log("TEST OK OK OK OK OK OK OOK OOOK");
 
 	var t = zoom_table[focus].t;
 	var s = zoom_table[focus].s;
 	var h = zoom_table[focus].h;
+	
+	svg_map.transition()
+      		.duration(750)
+      		.call(zoom.translate(t).scale(s).event);
 	
 	/*console.log(t);
 	console.log(s);
@@ -978,7 +982,7 @@ function zoom_focus() {
 	t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
 	t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));*/
 
-	g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+	//g.attr("transform", "translate(" + t + ")scale(" + s + ")");
 
 	/*zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
