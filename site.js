@@ -966,7 +966,7 @@ function zoom_focus() {
 	var h = zoom_table[focus].h;
 	
 	svg_map.transition()
-      		.duration(1000)
+      		.duration(2000)
       		.call(zoom.translate(t).scale(s).event);
 	
 	/*console.log(t);
