@@ -961,7 +961,7 @@ function zoom_focus() {
 		"LAC": {"t": [325, -180],"s":  2.25,"h":height_map / 3}
 		};
 
-	console.log("TEST");
+	console.log("TEST OK");
 
 	var t = zoom_table[focus].t;
 	var s = zoom_table[focus].s;
