@@ -47,6 +47,8 @@ function setup(width, height) {
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 		.call(zoom);
 	g = svg_map.append("g");
+	
+	console.log("l50");
 }
 
 
@@ -82,6 +84,8 @@ function move() {
 	
 		zoom.translate(t);
 		g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+		
+		console.log("l87");
 	}
 
 // *  Animation Functions      *	
@@ -595,6 +599,8 @@ function generateLineChart(){
 		.attr("height", height_chart + margin_chart.top + margin_chart.bottom)
 		.append("g")
 		.attr("transform", "translate(" + margin_chart.left + "," + margin_chart.top + ")");	
+	
+	console.log("l602");
 		
 	x.domain([new Date(first_year,0,1),new Date(end_year,0,1)]);
 	y.domain([0,1]);
@@ -614,6 +620,8 @@ function generateLineChart(){
 	svg_chart.append("g")
 		.attr("class", "yaxis axis")
 		.call(yAxis);
+	
+	console.log("l623");
 	
 	var g = svg_chart.append("g");
 	g.append("text")
@@ -965,4 +973,6 @@ function zoom_focus() {
 
 	zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+	
+	console.log("l976");
 }
