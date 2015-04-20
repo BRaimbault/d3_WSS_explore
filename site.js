@@ -981,6 +981,7 @@ function zoom_focus() {
 	//d3.event.translate = t;
 	//d3.event.scale = s;
 	
+	height_map = height;
 	svg_map.call(zoom);
 	
 	console.log("l976");
