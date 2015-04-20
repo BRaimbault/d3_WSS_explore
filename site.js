@@ -965,6 +965,10 @@ function zoom_focus() {
 	var s = zoom_table[focus].s;
 	var h = zoom_table[focus].h;
 	
+	console.log(t);
+	console.log(s);
+	console.log(h);
+	
 	t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
 	t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));
 
