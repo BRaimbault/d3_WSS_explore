@@ -967,11 +967,12 @@ function zoom_focus() {
 	var s = zoom_table[focus].s;
 	var h = zoom_table[focus].h;
 	
+	console.log(t);
+	console.log(s);
+	
 	d3.event.translate = t;
 	d3.event.scale = s;
 	
-	console.log(t);
-	console.log(s);
 	console.log(h);
 	
 	t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
