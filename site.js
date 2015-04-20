@@ -975,5 +975,6 @@ function zoom_focus() {
 	zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 	
+	svg_map.call(zoom);
 	console.log("l976");
 }
