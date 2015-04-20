@@ -71,7 +71,7 @@ function throttle() {
 
 // Enables pan	
 function move() {
-	
+		g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 		/*var t = d3.event.translate;
 		var s = d3.event.scale;
 		var h = height_map / 3;
