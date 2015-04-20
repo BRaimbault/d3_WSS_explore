@@ -970,8 +970,8 @@ function zoom_focus() {
 	console.log(t);
 	console.log(s);
 	
-	d3.event.translate = t;
-	d3.event.scale = s;
+	//d3.event.translate = t;
+	//d3.event.scale = s;
 	
 	console.log(h);
 	
@@ -981,8 +981,8 @@ function zoom_focus() {
 	zoom.translate(t);
 	g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 	
-	zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", move);
-	svg_map.call(zoom);
+	//zoom = d3.behavior.zoom().scaleExtent([1, 100]).on("zoom", move);
+	//svg_map.call(zoom);
 	
 	console.log("l976");
 }
