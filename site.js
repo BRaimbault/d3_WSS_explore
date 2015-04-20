@@ -73,10 +73,7 @@ function move() {
 		var t = d3.event.translate;
 		var s = d3.event.scale;
 		var h = height_map / 3;
-	
-		console.log(t);
-		console.log(s);
-	
+
 		t[0] = Math.min(width_map / 2 * (s - 1), Math.max(width_map / 2 * (1 - s), t[0]));
 		t[1] = Math.min(height_map / 2 * (s - 1) + h * s, Math.max(height_map / 2 * (1 - s) - h * s, t[1]));
 	
@@ -110,7 +107,6 @@ function clicked(d) {
 	}
 
 function clicked_dot(d) {
-	console.log(d.value);
   	document.getElementById('year').innerHTML= d.key.getFullYear();
   	updateLineChart(active_id, false);
 	WSS_Data_update();
@@ -197,7 +193,6 @@ function WSS_Data_loading(error, world_topo, world_data) {
 				}
 				return "country " + temp1; });
 					
-		console.log(country);
 		//ofsets plus width/height of transform, plsu 20 px of padding, plus 20 extra for tooltip1 offset off mouse
 		var offsetL = document.getElementById('container').offsetLeft + (width_map / 2) + 40;
 		var offsetT = document.getElementById('container').offsetTop + (height_map / 2) + 20;
@@ -925,8 +920,6 @@ function updateLineChart(countryid,resetid){
 	d3.selectAll(".chart_line3")
 		.datum(table_g_redl)
 		.attr("d", line);
-	
-	console.log(active_id);
 	
 	if (active_id !== null) {
 		var	table_c_red = [{"key": new Date(year,0,1), "value": lookup[active_id][year][serie]/100}];
